@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+/*
+imprime segun la edad 
+0-1 infante 
+1-10 niño
+10-14 preadolecente
+15-18 adolecente
+19-40 adulto
+41-60 adulto mayor
+61-75 es un envejeciente
+75 en adelante es un anciano
+*/
+int main()
+{
+    int edad = 0 ;//32bits
+    printf("\nIngrese su edad:");
+    scanf("%i",&edad);
+    
+    if( edad >= EDAD_MIN && Edad <= EDAD_MAX )
+    {
+        if(edad == 0 || edad == 1)
+        {
+            printf("\nEres un infante");
+        }
+        
+        if(edad == 1 || edad == 10)
+        {
+            printf("\nEres un niño")
+        }
+        
+        if(edad == 10 || edad == 14)
+        {
+            printf("\nEres un preadolecente")
+        }
+        
+        if(edad == 15 || edad == 18)
+        {
+            printf("\nEres un adolecente")
+        }
+        
+        if(edad == 19 || edad == 40)
+        {
+            printf("\nEres un adulto")
+        }
+        
+        if(edad == 41 || edad == 60)
+        {
+            printf("\nEres un adulto mayor")
+        }
+        
+        if(edad == 61 || edad == 75)
+        {
+            printf("\nEres un envejeciente")
+        }
+        
+        if(edad > 75)
+        {
+            printf("\nEres un anciano")
+        }
+        
+    }else 
+    {
+        if(edad < EDAD_MIN)
+        {
+            printf("\nValor de edad negativo!");
+        }
+        
+        if(edad > EDAD_MAX)
+        {
+            printf("\nUsted es un vampiro");
+        }
+        
+    }
+    return 0;
