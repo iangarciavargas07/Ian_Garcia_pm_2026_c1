@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+
+    char texto[100];
+    int i;
+    int letras = 0, numeros = 0, espacios = 0, simbolos = 0;
+
+    printf("Ingrese un texto: ");
+    scanf(" %[^\n]", texto);
+
+    printf("\nLongitud del texto: %lu\n", strlen(texto));
+
+    for(i = 0; texto[i] != '\0'; i++) {
+
+        if(isalpha(texto[i]))
+            letras++;
+
+        else if(isdigit(texto[i]))
+            numeros++;
+
+        else if(isspace(texto[i]))
+            espacios++;
+
+        else
+            simbolos++;
+    }
+
+    printf("Cantidad de letras: %d\n", letras);
+    printf("Cantidad de numeros: %d\n", numeros);
+    printf("Cantidad de espacios: %d\n", espacios);
+    printf("Cantidad de simbolos: %d\n", simbolos);
+
+    for(i = 0; texto[i] != '\0'; i++) {
+        texto[i] = toupper(texto[i]);
+    }
+
+    printf("\nTexto en MAYUSCULAS: %s\n", texto);
+
+    return 0;
+}
