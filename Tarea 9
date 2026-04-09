@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int esValido(char correo[]) {
+    int i, arroba = 0, punto = 0;
+
+    for (i = 0; correo[i] != '\0'; i++) {
+        if (correo[i] == '@') arroba++;
+        if (correo[i] == '.') punto++;
+    }
+
+    // Debe tener exactamente un @ y al menos un punto
+    if (arroba == 1 && punto >= 1) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char correo[100];
+
+    printf("Ingrese un correo: ");
+    scanf("%s", correo);
+
+    if (esValido(correo)) {
+        printf("Correo VALIDO\n");
+    } else {
+        printf("Correo INVALIDO\n");
+    }
+
+    return 0;
+}
