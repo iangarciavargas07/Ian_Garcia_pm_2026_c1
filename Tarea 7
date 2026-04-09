@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Crear matriz dinámica
+double** crearMatriz(int filas, int columnas) {
+    double** matriz = (double**) malloc(filas * sizeof(double*));
+    for (int i = 0; i < filas; i++) {
+        matriz[i] = (double*) malloc(columnas * sizeof(double));
+    }
+    return matriz;
+}
+
+// Liberar memoria
+void liberarMatriz(double** matriz, int filas) {
+    for (int i = 0; i < filas; i++) {
+        free(matriz[i]);
+    }
+    free(matriz);
+}
+
+// Mostrar matriz
+void mostrarMatriz(double** matriz, int filas, int columnas) {
+    for (int i = 0; i < filas; i++) {
+        for (int j = 0; j < columnas; j++) {
+            printf("%.2lf ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Leer matriz desde teclado
+void leerDesdeTeclado(double** matriz, int filas, int columnas) {
+    for (int i = 0; i < filas; i++) {
+        for (int j = 0; j < columnas; j++) {
+            printf("Elemento [%d][%d]: ", i, j);
+            scanf("%lf", &matriz[i][j]);
+        }
+    }
+}
+
+// Leer matriz desde archivo CSV
+void leerDesdeArchivo(double** matriz, int filas, int columnas, char nombreArchivo[]) {
+    FILE* archivo = fopen(nombreArchivo, "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    for (int i = 0; i < filas; i++) {
+        for (int j = 0; j < columnas; j++) {
+            fscanf(archivo, "%lf,", &matriz[i][j]);
+        }
+    }
+
+    fclose(archivo);
+}
+
+// Suma de matrices
+double** sumar(double** A, double** B, int filas, int columnas) {
+    double** C = crearMatriz(filas, columnas);
+    for (int i = 0; i < filas; i++)
+        for (int j = 0; j < columnas; j++)
+            C[i][j] = A[i][j] + B[i][j];
+    return C;
+}
+
+// Resta
+double** restar(double** A, double** B, int filas, int columnas) {
+    double** C = crearMatriz(filas, columnas);
+    for (int i = 0; i < filas; i++)
+        for (int j = 0; j < columnas; j++)
+            C[i][j] = A[i][j] - B[i][j];
+    return C;
+}
+
+// Multiplicación
+double** multiplicar(double** A, double** B, int f1, int c1, int c2) {
+    double** C = crearMatriz(f1, c2);
+
+    for (int i = 0; i < f1; i++) {
+        for (int j = 0; j < c2; j++) {
+            C[i][j] = 0;
+            for (int k = 0; k < c1; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return C;
+}
+
+int main() {
+    int filas, columnas;
+    printf("Filas: ");
+    scanf("%d", &filas);
+    printf("Columnas: ");
+    scanf("%d", &columnas);
+
+    double** A = crearMatriz(filas, columnas);
+    double** B = crearMatriz(filas, columnas);
+
+    int opcion;
+    printf("1. Ingresar por teclado\n2. Leer desde archivo\n");
+    scanf("%d", &opcion);
+
+    if (opcion == 1) {
+        printf("Matriz A\n");
+        leerDesdeTeclado(A, filas, columnas);
+        printf("Matriz B\n");
+        leerDesdeTeclado(B, filas, columnas);
+    } else {
+        char archivoA[50], archivoB[50];
+        printf("Archivo matriz A: ");
+        scanf("%s", archivoA);
+        printf("Archivo matriz B: ");
+        scanf("%s", archivoB);
+        leerDesdeArchivo(A, filas, columnas, archivoA);
+        leerDesdeArchivo(B, filas, columnas, archivoB);
+    }
+
+    printf("\nMatriz A:\n");
+    mostrarMatriz(A, filas, columnas);
+    printf("\nMatriz B:\n");
+    mostrarMatriz(B, filas, columnas);
+
+    double** C = sumar(A, B, filas, columnas);
+    printf("\nSuma:\n");
+    mostrarMatriz(C, filas, columnas);
+
+    liberarMatriz(A, filas);
+    liberarMatriz(B, filas);
+    liberarMatriz(C, filas);
+
+    return 0;
+}
