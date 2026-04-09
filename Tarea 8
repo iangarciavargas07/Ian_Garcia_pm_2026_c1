@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Función para generar tabla y guardarla en archivo
+void generarTabla(double valorInicial, double valorFinal, int meses, char nombreArchivo[]) {
+    FILE *archivo = fopen(nombreArchivo, "w");
+    if (archivo == NULL) {
+        printf("Error al crear el archivo.\n");
+        return;
+    }
+
+    double depreciacionMensual = (valorInicial - valorFinal) / meses;
+    double valorActual = valorInicial;
+
+    fprintf(archivo, "-------------------------------------------------------------\n");
+    fprintf(archivo, " MES\tVALOR INICIAL\tDEPRECIACION\tVALOR FINAL\n");
+    fprintf(archivo, "-------------------------------------------------------------\n");
+
+    for (int i = 1; i <= meses; i++) {
+        double valorAntes = valorActual;
+        valorActual -= depreciacionMensual;
+
+        fprintf(archivo, " %d\t%.2lf\t\t%.2lf\t\t%.2lf\n",
+                i, valorAntes, depreciacionMensual, valorActual);
+    }
+
+    fprintf(archivo, "-------------------------------------------------------------\n");
+    fclose(archivo);
+
+    printf("Tabla generada correctamente en %s\n", nombreArchivo);
+}
+
+int main() {
+    int opcion;
+    double valorInicial, valorFinal;
+    int meses;
+
+    printf("CALCULO DE DEPRECIACION DE VEHICULO\n");
+    printf("1. Ingresar valor inicial, valor final y tiempo\n");
+    printf("2. Ingresar valor inicial y tiempo (valor final = 0)\n");
+    printf("Seleccione opcion: ");
+    scanf("%d", &opcion);
+
+    if (opcion == 1) {
+        printf("Valor inicial del vehiculo: ");
+        scanf("%lf", &valorInicial);
+        printf("Valor final estimado: ");
+        scanf("%lf", &valorFinal);
+        printf("Tiempo en meses: ");
+        scanf("%d", &meses);
+    } else {
+        printf("Valor inicial del vehiculo: ");
+        scanf("%lf", &valorInicial);
+        printf("Tiempo en meses: ");
+        scanf("%d", &meses);
+        valorFinal = 0;
+    }
+
+    generarTabla(valorInicial, valorFinal, meses, "tabla_amortizacion.txt");
+
+    return 0;
+}
